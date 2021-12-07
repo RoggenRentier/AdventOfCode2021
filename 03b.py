@@ -1,45 +1,10 @@
 import sys
+import copy
 
 def reader(file):
     lines = file.read().splitlines()
     return lines
 
-def getOxGenPattern(lines):
-    
-    zero = 0
-    one = 0
-    arr = [0] * len(lines[0])
-    
-    for i in range(0, len(lines[0])):
-        for line in lines:
-            if line[i] == "0":
-                zero += 1
-            else:
-                one += 1
-        if zero > one:   
-            arr[i] = 0
-        else:
-            arr[i] = 1
-        zero = 0
-        one = 0
-
-    return arr
-
-def getCo2ScrubPattern(gamma):
-    epsilon = [0] * len(gamma)
-    for i in range(0, len(gamma)):
-        if gamma[i] == 0:
-            epsilon[i] = 1
-        else:
-            epsilon[i] = 0
-
-    return epsilon
-
-def deepFuckingCopy(arr):
-    copyArr = [[0] * len(arr[0])] * len[arr] 
-    for i in range(0, len(arr)):
-        for j in range(0, len(arr[0])):
-            copyArr[i][j] = arr[i][j]
 
 def tooString(arr):
     arrStr = [""] * len(arr)
@@ -47,56 +12,109 @@ def tooString(arr):
         arrStr[i] = str(arr[i])
     return ''.join(arrStr)
 
-def getRating(pattern, arr):
-    for j in range(0, len(pattern)):
-        i = 0
-        while i < len(arr):
-            if arr[i][j] != pattern[j]:
-                arr.pop(i)
-                print("arrlen: " + str(len(arr)))
-                i -= 1 
-            if len(arr) == 1:
-                print("feddisch")
-                return arr[0]
-                
-            i +=1
-           
+def getRatingOxGen(arr):
+    zero = 0
+    one = 0
+    pattern = 0    
+    for i in range(0, len(arr[0])):
+        #Find pattern for this Column (i)
+        for j in range(0, len(arr)):
+            if arr[j][i] == "0":
+                zero += 1
+            else:
+                one += 1
+        if zero > one:
+            pattern = 0
+            print("pattern: " + str(pattern))
+        else:
+            pattern = 1
+            print("pattern: " + str(pattern))
+        zero = 0
+        one = 0
 
-
+        #throw out values which don't match the pattern
+        j = 0
+        while j < len(arr):    #iterate
+            if str(arr[j][i]) != str(pattern):
+                print("pop: " + str(arr[j]))
+                arr.pop(j)
+                j -= 1          #to avoid skipping
+                if len(arr) == 1:
+                    return arr[0]
+            j += 1
         
+
+def getRatingCo2Scrub(arr):
+    zero = 0
+    one = 0
+    pattern = 0    
+    for i in range(0, len(arr[0])):
+        #Find pattern for this Column (i)
+        for j in range(0, len(arr)):
+            if arr[j][i] == "0":
+                zero += 1
+            else:
+                one += 1
+        if one >= zero:
+            pattern = 0
+            print("pattern: " + str(pattern))
+        else:
+            pattern = 1
+            print(str(one) + " not greater " + str(zero))
+            print("pattern: " + str(pattern))
+        zero = 0
+        one = 0
+
+        #throw out values which don't match the pattern
+        j = 0
+        while j < len(arr):    #iterate
+            if str(arr[j][i]) != str(pattern):
+                print("pop: " + str(arr[j]))
+                arr.pop(j)
+                j -= 1          #to avoid skipping
+                if len(arr) == 1:
+                    return arr[0]
+            j += 1
+        print(arr)
+
+
             
 
 
+           
 
 
 
 
 
 
-#file = open("Input/input03.txt")
-#lines = reader(file)
-lines = ["00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100", "10000", "11001", "00010", "01010"]
+
+
+
+
+
+
+file = open("Input/input03.txt")
+lines = reader(file)
+#lines = ["00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100", "10000", "11001", "00010", "01010"]
 #print(lines)
 
-OxGenLines = deepFuckingCopy(lines)
-Co2Lines = deepFuckingCopy(lines)
-print(lines)
-print(Co2Lines)
+OxGenLines = copy.deepcopy(lines)
+Co2Lines = copy.deepcopy(lines)
+#print(lines)
+#print(Co2Lines)
 
-OxGenPat = getOxGenPattern(lines)
-Co2ScrubPat = getCo2ScrubPattern(OxGenPat)
-print(tooString(OxGenPat))
-print(tooString(Co2ScrubPat))
-'''OxGen = getRating(OxGenPat, lines)
-print("first Rating fin")
-Co2Scrub = getRating(Co2ScrubPat, lines)
+OxGen = getRatingOxGen(OxGenLines)
 decOxGen = int(tooString(OxGen), 2)
-decEpsilon = int(tooString(Co2Scrub), 2)
-print(decOxGen)
-print(decEpsilon)
+print("decOxGen: " + str(decOxGen))
 print()
-print(decOxGen * decEpsilon)
-'''
+
+Co2Scrub = getRatingCo2Scrub(Co2Lines)
+decCo2Scrub = int(tooString(Co2Scrub), 2)
+print("Co2Scrub: " + str(decCo2Scrub))
+print()
+print(decOxGen * decCo2Scrub)
+
 
 
 
