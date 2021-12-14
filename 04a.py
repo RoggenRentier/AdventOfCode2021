@@ -9,6 +9,7 @@ def readerInstruct(file):
 
 
 def readerBoards(file):
+    '''
     boards = [[[0]*5 ]*5 ]*100
     boardArr = [0] * 10000
     i = 0
@@ -27,10 +28,10 @@ def readerBoards(file):
                 i += 1
     
     print(boardArr)
-    
-    
     '''
-    boards = [[[0]*5 ]*5 ]*100
+    
+    
+    boards = [[[0]*5 ]*5 ]*3    #100
     i = 0 
     j = 0
 
@@ -39,29 +40,23 @@ def readerBoards(file):
 
     while line:
         line = line.replace("\n", "")
-        #print(line)
-        #if line.isspace() or line:  #basically isempty()
-        #if len(line.strip()) == 0:
-        if not line:
-            #print("isEmpty")
-            pass
-        else:
-            #print("notEmpty")
-            
+        
+        if len(line) != 0:
             boards[i][j] = copy.deepcopy(toArray(line))
-            print(boards[i][j])
             j += 1
-            if j == 5:
+            if j >= 5:
                 j = 0
                 i += 1
-            
-            boards[i] = toBoard(toArray)
+            boardsPrint(boards)
+            print()
+
+
 
 
         line = file.readline() 
     
     return boards
-    '''
+    
 
 
 
@@ -80,6 +75,7 @@ def toArray(line):
             #print(arr[i])
             arr[i] = int(arr[i])
             i += 1
+    #print(arr)
     return arr
 
 
@@ -128,19 +124,27 @@ def sum(board):
                 finSum += board[i][j]
     return finSum
 
+def boardsPrint(boards):
+    print()
+    for e in boards:
+        #print()
+        print(e)
+
+
 
 
 
 
 
 #read the file into an array of numbers and a 3d array for the boards
-file = open("c:/Users/cedri/Documents/Python/Git/AdventOfCode2021/Input/input04.txt")
+file = open("D:/Programmieren/Python/Git/AdventOfCode2021/Input/tst.txt")    #c:/Users/cedri/Documents/Python/Git/AdventOfCode2021/Input/input04.txt"
 instructions = readerInstruct(file)
 print("Instructions: " + str(instructions))
 print()
 
 
 boards = readerBoards(file)
+boardsPrint(boards)
 file.close()
 
 #instructions = [7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1]
