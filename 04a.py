@@ -137,7 +137,7 @@ def boardsPrint(boards):
 
 
 #read the file into an array of numbers and a 3d array for the boards
-file = open("D:/Programmieren/Python/Git/AdventOfCode2021/Input/tst.txt")    #c:/Users/cedri/Documents/Python/Git/AdventOfCode2021/Input/input04.txt"
+file = open("C:/Users/cedri/Documents/Python/Git/AdventOfCode2021/Input/input04.txt")    #"C:/Users/cedri/Documents/Python/Git/AdventOfCode2021/Input/input04.txt"    #"D:/Programmieren/Python/Git/AdventOfCode2021/Input/tst.txt"
 instructions = readerInstruct(file)
 print("Instructions: " + str(instructions))
 print()
